@@ -1,0 +1,27 @@
+{
+  "name": "keksobooking",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Личный проект «Кексобукинг» от HTML Academy",
+  "author": "Юлия Максимова",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:htmlacademy-javascript/367171-keksobooking.git"
+  },
+  "bugs": {
+    "url": "https://github.com/htmlacademy-javascript/367171-keksobooking/issues"
+  },
+  "homepage": "https://github.com/htmlacademy-javascript/367171-keksobooking",
+  "devDependencies": {
+    "eslint": "3.9.0",
+    "eslint-config-htmlacademy": "0.2.x"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "scripts": {
+    "test": "eslint js/"
+  },
+  "engines": {
+    "node": "^6.10"
+  }
+}
