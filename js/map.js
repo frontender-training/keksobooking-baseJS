@@ -26,7 +26,7 @@ function generateAds() {
   for (var i = 0; i < COUNT_USERS; i++) {
     ads.push({
       'author': {
-        'avatar':  userAvatars[i]// Перебираем массив и ставим первое значение обновленного массива
+        'avatar': userAvatars[i]// Перебираем массив и ставим первое значение обновленного массива
       },
       'offer': {
         'title': adHeadlines[i], // Перебираем массив и ставим первое значение обновленного массива
@@ -55,13 +55,13 @@ console.log(generateAds());
 // Генерируем массив аватарок
 function generateAvatars() {
   var listAvatars = [];
-  for (var i=1; i < COUNT_USERS + 1; i++) {
+  for (var i = 1; i < COUNT_USERS + 1; i++) {
     if (i < 10) {
-      var Avatars = 'img/avatars/user' + '0' + i + '.png';
+      var avatars = 'img/avatars/user' + '0' + i + '.png';
     } else {
-      var Avatars = 'img/avatars/user' + i + '.png';
+      var avatars = 'img/avatars/user' + i + '.png';
     }
-    listAvatars.push(Avatars);
+    listAvatars.push(avatars);
   }
   return listAvatars;
 }
@@ -88,12 +88,12 @@ function getArrayLength(array) {
 }
 
 // Функция, возвращающая массив в случайном порядке
- function shuffleArray(array) {
-   for (var i = array.length - 1; i > 0; i--) {
-     var randomIndex = Math.floor(Math.random() * (i + 1));
-     var tempValue = array[i];
-     array[i] = array[randomIndex];
-     array[randomIndex] = tempValue;
-   }
-   return array;
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var randomIndex = Math.floor(Math.random() * (i + 1));
+    var tempValue = array[i];
+    array[i] = array[randomIndex];
+    array[randomIndex] = tempValue;
+  }
+  return array;
  }
