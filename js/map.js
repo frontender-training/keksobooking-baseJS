@@ -28,3 +28,35 @@ function generateAvatars() {
   }
   return listAvatars;
 }
+
+// Функция, возвращающая случайное число в диапазоне
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Функция, возвращающая случайный элемемент массива
+function getRandomElement(array) {
+  for (var i = 0; i < array.length; i++) {
+    var randomIndex = Math.floor(Math.random() * array.length);
+  }
+  var randomElement = array[randomIndex];
+  return randomElement;
+}
+
+// Функция, создающая массив произвольной длины
+function getArrayLength(array) {
+  var clone = array.slice();
+  clone.length = getRandomNumber(1, array.length);
+  return clone;
+}
+
+// Функция, возвращающая массив в случайном порядке
+ function shuffleArray(array) {
+   for (var i = array.length - 1; i > 0; i--) {
+     var randomIndex = Math.floor(Math.random() * (i + 1));
+     var tempValue = array[i];
+     array[i] = array[randomIndex];
+     array[randomIndex] = tempValue;
+   }
+   return array;
+ }
