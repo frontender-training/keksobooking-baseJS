@@ -18,12 +18,13 @@ var FACILITY = ['wifi', 'dishwasher', 'parking', 'elevator', 'conditioner'];
 // Функция, возвращающаая массив объектов объявлений
 function generateAds() {
   var ads = [];
-  var locationX = getRandomNumber(300, 900);
-  var locationY = getRandomNumber(100, 500);
   var userAvatars = shuffleArray(generateAvatars());
   var adHeadlines = shuffleArray(TITLE_ADS);
 
   for (var i = 0; i < COUNT_USERS; i++) {
+    var locationX = getRandomNumber(300, 900);
+    var locationY = getRandomNumber(100, 500);
+
     ads.push({
       'author': {
         'avatar': userAvatars[i]// Перебираем массив и ставим первое значение обновленного массива
@@ -50,7 +51,33 @@ function generateAds() {
   return ads;
 }
 
-console.log(generateAds());
+var listAds = generateAds();
+insertPins();
+
+// Вставляем полученные метки в карту
+function insertPins() {
+  var tokyoPinMap = document.querySelector('.tokyo__pin-map');
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < listAds.length; i++) {
+    fragment.appendChild(createPin(listAds[i]));
+  }
+  tokyoPinMap.appendChild(fragment);
+}
+
+// Создаем шаблон по которому будут собираться все меткм для карты
+function createPin(marker) {
+  var userLocation = document.createElement('div');
+  var userAvatar = document.createElement('img');
+  userLocation.className = 'pin';
+  userLocation.style.left = (marker.location.x - PIN_HEIGHT) + 'px';
+  userLocation.style.top = marker.location.y - (PIN_WIDTH / 2) + 'px';
+  userAvatar.className = 'rounded';
+  userAvatar.width = 40;
+  userAvatar.height = 40;
+  userAvatar.src = marker.author.avatar;
+  userLocation.appendChild(userAvatar);
+  return userLocation;
+}
 
 // Генерируем массив аватарок
 function generateAvatars() {
