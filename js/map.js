@@ -67,6 +67,37 @@ function generateAds() {
 var listAds = generateAds();
 insertPins();
 
+// Получаем шаблон вывода информации о комнатах
+function getGuestsAndRooms(guests, rooms) {
+  return 'Для ' + guests + ' гостей в ' + rooms + ' комнатах';
+}
+
+// Получаем шаблон вывода информации о времени заезда и выезда
+function getTime(checkin, checkout) {
+  return 'Заезд после ' + checkin + ', выезд ' + checkout;
+}
+
+// Получаем шаблон вывода информации о цене комнате за ночь
+function getPrice(price) {
+  return price + ' &#x20bd;/ночь';
+}
+
+// Переводим название типов жилья на русский
+function translateType(type) {
+  switch (type) {
+    case 'flat':
+      return 'Квартира';
+    case 'bungalo':
+      return 'Бунгало';
+    case 'house':
+      return 'Дом';
+    default:
+      return type;
+  }
+}
+
+console.log(translateType('flat'));
+
 // Вставляем полученные метки в карту
 function insertPins() {
   var tokyoPinMap = document.querySelector('.tokyo__pin-map');
@@ -136,4 +167,4 @@ function shuffleArray(array) {
     array[randomIndex] = tempValue;
   }
   return array;
- }
+}
