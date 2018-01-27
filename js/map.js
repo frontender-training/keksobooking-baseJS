@@ -1,14 +1,23 @@
 'use strict';
 
 var COUNT_USERS = 8;
+// Количество гостей
 var MIN_GUEST = 1;
 var MAX_GUEST = 20;
+
+// Количество комнат
 var MIN_ROOMS = 1;
 var MAX_ROOMS = 5;
+
+// Диапазон цен
 var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
+
+// Размеры маркера
 var PIN_HEIGHT = 75;
 var PIN_WIDTH = 56;
+
+// Координаты маркера на карте
 var minAxisX = 300;
 var maxAxisX = 900;
 var minAxisY = 100;
@@ -31,24 +40,24 @@ function generateAds() {
 
     ads.push({
       'author': {
-        'avatar': userAvatars[i]// Перебираем массив и ставим первое значение обновленного массива
+        'avatar': userAvatars[i]                           // Перебираем массив и ставим первое значение обновленного массива
       },
       'offer': {
-        'title': adHeadlines[i], // Перебираем массив и ставим первое значение обновленного массива
+        'title': adHeadlines[i],                           // Перебираем массив и ставим первое значение обновленного массива
         'adress': (locationX + ', ' + locationY),
-        'price': getRandomNumber(MIN_PRICE, MAX_PRICE),  // число, случайная цена от 1000 до 1 000 000
-        'type': getRandomElement(TYPE_OF_ROOMS), // Выбираем случайное число из массива типа комнат
-        'rooms': getRandomNumber(MIN_ROOMS, MAX_ROOMS), // Выбираем случайное число из массива количества комнат
-        'guests': getRandomNumber(MIN_GUEST, MAX_GUEST), // число, случайное количество гостей, которое можно разместить
-        'checkin': getRandomElement(TIME),  // Выбираем случайное число из массива времени заезда
-        'checkout': getRandomElement(TIME), // Выбираем случайное число из массива времени выезда
-        'features': getArrayLength(FACILITY), // Выбираем случайное число из массива удобств
+        'price': getRandomNumber(MIN_PRICE, MAX_PRICE),    // Случайная цена от 1000 до 1 000 000
+        'type': getRandomElement(TYPE_OF_ROOMS),           // Выбираем случайное число из массива типа комнат
+        'rooms': getRandomNumber(MIN_ROOMS, MAX_ROOMS),    // Выбираем случайное число из массива количества комнат
+        'guests': getRandomNumber(MIN_GUEST, MAX_GUEST),   // Случайное количество гостей, которое можно разместить
+        'checkin': getRandomElement(TIME),                 // Выбираем случайное число из массива времени заезда
+        'checkout': getRandomElement(TIME),                // Выбираем случайное число из массива времени выезда
+        'features': getArrayLength(FACILITY),              // Выбираем случайное число из массива удобств
         'description': '',
         'photos': []
       },
       'location': {
-        'x': locationX, // случайное число, координата x метки на карте в блоке .tokyo__pin-map от 300 до 900,
-        'y': locationY // случайное число, координата y метки на карте в блоке .tokyo__pin-map от 100 до 500
+        'x': locationX,                                    // Случайное число, координата x метки на карте в блоке .tokyo__pin-map от 300 до 900
+        'y': locationY                                     // Случайное число, координата y метки на карте в блоке .tokyo__pin-map от 100 до 500
       }
     });
   }
@@ -63,7 +72,7 @@ function insertPins() {
   var tokyoPinMap = document.querySelector('.tokyo__pin-map');
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < listAds.length; i++) {
-    fragment.appendChild(createPin(listAds[i]));
+    fragment.appendChild(createPin(listAds[i]));          // Создаем и клонируем метки
   }
   tokyoPinMap.appendChild(fragment);
 }
