@@ -67,19 +67,23 @@ function generateAds() {
 var listAds = generateAds();
 insertPins();
 
-// Получаем шаблон вывода информации о комнатах
-function getGuestsAndRooms(guests, rooms) {
-  return 'Для ' + guests + ' гостей в ' + rooms + ' комнатах';
+
+// Создаем иконку удобств
+function createIconFeature(feature) {
+  var iconFeature = document.createElement('span');
+  iconFeature.classList.add('feature__image');
+  iconFeature.classList.add('feature__image--' + feature);
+  return iconFeature;
 }
 
-// Получаем шаблон вывода информации о времени заезда и выезда
-function getTime(checkin, checkout) {
-  return 'Заезд после ' + checkin + ', выезд ' + checkout;
-}
-
-// Получаем шаблон вывода информации о цене комнате за ночь
-function getPrice(price) {
-  return price + ' &#x20bd;/ночь';
+// Проходим по всему массиву
+function generateIconsFeatures(arrayFeatures) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < arrayFeatures.length; i++) {
+    var feature = createIconFeature(arrayFeatures[i]);
+    fragment.appendChild(feature);
+  }
+  return fragment;
 }
 
 // Переводим название типов жилья на русский
@@ -96,7 +100,20 @@ function translateType(type) {
   }
 }
 
-console.log(translateType('flat'));
+// Получаем шаблон вывода информации о комнатах
+function getGuestsAndRooms(guests, rooms) {
+  return 'Для ' + guests + ' гостей в ' + rooms + ' комнатах';
+}
+
+// Получаем шаблон вывода информации о времени заезда и выезда
+function getTime(checkin, checkout) {
+  return 'Заезд после ' + checkin + ', выезд ' + checkout;
+}
+
+// Получаем шаблон вывода информации о цене комнате за ночь
+function getPrice(price) {
+  return price + ' &#x20bd;/ночь';
+}
 
 // Вставляем полученные метки в карту
 function insertPins() {
