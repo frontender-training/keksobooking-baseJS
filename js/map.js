@@ -9,6 +9,10 @@ var MIN_PRICE = 1000;
 var MAX_PRICE = 1000000;
 var PIN_HEIGHT = 75;
 var PIN_WIDTH = 56;
+var minAxisX = 300;
+var maxAxisX = 900;
+var minAxisY = 100;
+var maxAxisY = 500;
 
 var TITLE_ADS = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var TYPE_OF_ROOMS = ['flat', 'house', 'bungalo'];
@@ -22,8 +26,8 @@ function generateAds() {
   var adHeadlines = shuffleArray(TITLE_ADS);
 
   for (var i = 0; i < COUNT_USERS; i++) {
-    var locationX = getRandomNumber(300, 900);
-    var locationY = getRandomNumber(100, 500);
+    var locationX = getRandomNumber(minAxisX, maxAxisX);
+    var locationY = getRandomNumber(minAxisY, maxAxisY);
 
     ads.push({
       'author': {
