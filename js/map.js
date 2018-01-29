@@ -177,12 +177,12 @@ function generateAds() {
 // Генерируем массив аватарок
 function generateAvatars() {
   var listAvatars = [];
+
   for (var i = 1; i < COUNT_USERS + 1; i++) {
     if (i < 10) {
-      var avatars = 'img/avatars/user' + '0' + i + '.png';
-    } else {
-      var avatars = 'img/avatars/user' + i + '.png';
+      i = '0' + i;
     }
+    var avatars = 'img/avatars/user' + i + '.png';
     listAvatars.push(avatars);
   }
   return listAvatars;
