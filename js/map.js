@@ -28,44 +28,42 @@ var TYPE_OF_ROOMS = ['flat', 'house', 'bungalo'];
 var TIME = ['12:00', '13:00', '14:00'];
 var FACILITY = ['wifi', 'dishwasher', 'parking', 'elevator', 'conditioner'];
 
-// Функция, возвращающаая массив объектов объявлений
-function generateAds() {
-  var ads = [];
-  var userAvatars = shuffleArray(generateAvatars());
-  var adHeadlines = shuffleArray(TITLE_ADS);
-
-  for (var i = 0; i < COUNT_USERS; i++) {
-    var locationX = getRandomNumber(minAxisX, maxAxisX);
-    var locationY = getRandomNumber(minAxisY, maxAxisY);
-
-    ads.push({
-      'author': {
-        'avatar': userAvatars[i]                           // Перебираем массив и ставим первое значение обновленного массива
-      },
-      'offer': {
-        'title': adHeadlines[i],                           // Перебираем массив и ставим первое значение обновленного массива
-        'adress': (locationX + ', ' + locationY),
-        'price': getRandomNumber(MIN_PRICE, MAX_PRICE),    // Случайная цена от 1000 до 1 000 000
-        'type': getRandomElement(TYPE_OF_ROOMS),           // Выбираем случайное число из массива типа комнат
-        'rooms': getRandomNumber(MIN_ROOMS, MAX_ROOMS),    // Выбираем случайное число из массива количества комнат
-        'guests': getRandomNumber(MIN_GUEST, MAX_GUEST),   // Случайное количество гостей, которое можно разместить
-        'checkin': getRandomElement(TIME),                 // Выбираем случайное число из массива времени заезда
-        'checkout': getRandomElement(TIME),                // Выбираем случайное число из массива времени выезда
-        'features': getArrayLength(FACILITY),              // Выбираем случайное число из массива удобств
-        'description': '',
-        'photos': []
-      },
-      'location': {
-        'x': locationX,                                    // Случайное число, координата x метки на карте в блоке .tokyo__pin-map от 300 до 900
-        'y': locationY                                     // Случайное число, координата y метки на карте в блоке .tokyo__pin-map от 100 до 500
-      }
-    });
-  }
-  return ads;
-}
-
 var listAds = generateAds();
+generateOffer(listAds[0]);
 insertPins();
+
+// Генерируем шаблон объявления
+function generateOffer(advertisement) {
+  var offer = advertisement.offer;
+  var author = advertisement.author;
+
+  var offerDialog = document.querySelector('#offer-dialog');              // Берем элемент, в который будем вставлять наш шаблон
+  var userAds = offerDialog.querySelector('.dialog__panel');              // Берем элемент, в который будем вставлять текст объявления
+  var dialogIcon = offerDialog.querySelector('.dialog__title > img');     // Берем элемент, в который будем аватарку юзера
+
+  var adsList = userAds.cloneNode(true);
+
+  dialogIcon.src = author.avatar;
+
+  adsList.querySelector('.lodge__title').textContent = offer.title;
+  adsList.querySelector('.lodge__address').textContent = offer.adress;
+  adsList.querySelector('.lodge__price').innerHTML = getPrice(offer.price);
+  adsList.querySelector('.lodge__type').textContent = translateType(offer.type);
+  adsList.querySelector('.lodge__rooms-and-guests').textContent = getGuestsAndRooms(offer.guests, offer.rooms);
+  adsList.querySelector('.lodge__checkin-time').textContent = getTime(offer.checkin, offer.checkout);
+  removeChilds(adsList.querySelector('.lodge__features'));                // Удаляем иконки удобств, выведенные по умолчанию
+  adsList.querySelector('.lodge__features').appendChild(generateIconsFeatures(offer.features));
+  adsList.querySelector('.lodge__description').textContent = offer.description;
+
+  offerDialog.removeChild(userAds);
+  offerDialog.appendChild(adsList);
+
+  function removeChilds(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+}
 
 
 // Создаем иконку удобств
@@ -138,6 +136,42 @@ function createPin(marker) {
   userAvatar.src = marker.author.avatar;
   userLocation.appendChild(userAvatar);
   return userLocation;
+}
+
+// Функция, возвращающаая массив объектов объявлений
+function generateAds() {
+  var ads = [];
+  var userAvatars = shuffleArray(generateAvatars());
+  var adHeadlines = shuffleArray(TITLE_ADS);
+
+  for (var i = 0; i < COUNT_USERS; i++) {
+    var locationX = getRandomNumber(minAxisX, maxAxisX);
+    var locationY = getRandomNumber(minAxisY, maxAxisY);
+
+    ads.push({
+      'author': {
+        'avatar': userAvatars[i]                           // Перебираем массив и ставим первое значение обновленного массива
+      },
+      'offer': {
+        'title': adHeadlines[i],                           // Перебираем массив и ставим первое значение обновленного массива
+        'adress': (locationX + ', ' + locationY),
+        'price': getRandomNumber(MIN_PRICE, MAX_PRICE),    // Случайная цена от 1000 до 1 000 000
+        'type': getRandomElement(TYPE_OF_ROOMS),           // Выбираем случайное число из массива типа комнат
+        'rooms': getRandomNumber(MIN_ROOMS, MAX_ROOMS),    // Выбираем случайное число из массива количества комнат
+        'guests': getRandomNumber(MIN_GUEST, MAX_GUEST),   // Случайное количество гостей, которое можно разместить
+        'checkin': getRandomElement(TIME),                 // Выбираем случайное число из массива времени заезда
+        'checkout': getRandomElement(TIME),                // Выбираем случайное число из массива времени выезда
+        'features': getArrayLength(FACILITY),              // Выбираем случайное число из массива удобств
+        'description': '',
+        'photos': []
+      },
+      'location': {
+        'x': locationX,                                    // Случайное число, координата x метки на карте в блоке .tokyo__pin-map от 300 до 900
+        'y': locationY                                     // Случайное число, координата y метки на карте в блоке .tokyo__pin-map от 100 до 500
+      }
+    });
+  }
+  return ads;
 }
 
 // Генерируем массив аватарок
