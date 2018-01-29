@@ -65,7 +65,6 @@ function generateOffer(advertisement) {
   }
 }
 
-
 // Создаем иконку удобств
 function createIconFeature(feature) {
   var iconFeature = document.createElement('span');
