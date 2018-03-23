@@ -1,32 +1,24 @@
 'use strict';
 
-var COUNT_USERS = 8;
-// Количество гостей
-var MIN_GUEST = 1;
-var MAX_GUEST = 20;
-
-// Количество комнат
-var MIN_ROOMS = 1;
-var MAX_ROOMS = 5;
-
-// Диапазон цен
-var MIN_PRICE = 1000;
-var MAX_PRICE = 1000000;
-
-// Размеры маркера
-var PIN_HEIGHT = 75;
-var PIN_WIDTH = 56;
-
-// Координаты маркера на карте
-var minAxisX = 300;
-var maxAxisX = 900;
-var minAxisY = 100;
-var maxAxisY = 500;
-
-var TITLE_ADS = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
-var TYPE_OF_ROOMS = ['flat', 'house', 'bungalo'];
-var TIME = ['12:00', '13:00', '14:00'];
-var FACILITY = ['wifi', 'dishwasher', 'parking', 'elevator', 'conditioner'];
+var DATA_ADS = {
+  COUNT_USERS: 8,
+  MIN_GUEST: 1,         // Количество гостец
+  MAX_GUEST: 20,
+  MIN_ROOMS: 1,         // Количество комнат
+  MAX_ROOMS: 5,
+  MIN_PRICE: 1000,      // Диапазон цен
+  MAX_PRICE: 1000000,
+  PIN_HEIGHT: 75,       // Размеры маркера
+  PIN_WIDTH: 56,
+  MIN_AXIS_X: 300,        // Координаты маркера на карте
+  MAX_AXIS_X: 900,
+  MIN_AXIS_Y: 100,
+  MAX_AXIS_Y: 500,
+  TITLE_ADS: ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'],
+  TYPE_OF_ROOMS: ['flat', 'house', 'bungalo'],
+  TIME: ['12:00', '13:00', '14:00'],
+  FACILITY: ['wifi', 'dishwasher', 'parking', 'elevator', 'conditioner']
+}
 
 var listAds = generateAds();
 generateOffer(listAds[0]);
@@ -127,8 +119,8 @@ function createPin(marker) {
   var userLocation = document.createElement('div');
   var userAvatar = document.createElement('img');
   userLocation.className = 'pin';
-  userLocation.style.left = (marker.location.x - PIN_HEIGHT) + 'px';
-  userLocation.style.top = marker.location.y - (PIN_WIDTH / 2) + 'px';
+  userLocation.style.left = (marker.location.x - DATA_ADS.PIN_HEIGHT) + 'px';
+  userLocation.style.top = marker.location.y - (DATA_ADS.PIN_WIDTH / 2) + 'px';
   userAvatar.className = 'rounded';
   userAvatar.width = 40;
   userAvatar.height = 40;
@@ -141,11 +133,11 @@ function createPin(marker) {
 function generateAds() {
   var ads = [];
   var userAvatars = shuffleArray(generateAvatars());
-  var adHeadlines = shuffleArray(TITLE_ADS);
+  var adHeadlines = shuffleArray(DATA_ADS.TITLE_ADS);
 
-  for (var i = 0; i < COUNT_USERS; i++) {
-    var locationX = getRandomNumber(minAxisX, maxAxisX);
-    var locationY = getRandomNumber(minAxisY, maxAxisY);
+  for (var i = 0; i < DATA_ADS.COUNT_USERS; i++) {
+    var locationX = getRandomNumber(DATA_ADS.MIN_AXIS_X, DATA_ADS.MAX_AXIS_X);
+    var locationY = getRandomNumber(DATA_ADS.MIN_AXIS_Y, DATA_ADS.MAX_AXIS_Y);
 
     ads.push({
       'author': {
@@ -154,13 +146,13 @@ function generateAds() {
       'offer': {
         'title': adHeadlines[i],                           // Перебираем массив и ставим первое значение обновленного массива
         'adress': (locationX + ', ' + locationY),
-        'price': getRandomNumber(MIN_PRICE, MAX_PRICE),    // Случайная цена от 1000 до 1 000 000
-        'type': getRandomElement(TYPE_OF_ROOMS),           // Выбираем случайное число из массива типа комнат
-        'rooms': getRandomNumber(MIN_ROOMS, MAX_ROOMS),    // Выбираем случайное число из массива количества комнат
-        'guests': getRandomNumber(MIN_GUEST, MAX_GUEST),   // Случайное количество гостей, которое можно разместить
-        'checkin': getRandomElement(TIME),                 // Выбираем случайное число из массива времени заезда
-        'checkout': getRandomElement(TIME),                // Выбираем случайное число из массива времени выезда
-        'features': getArrayLength(FACILITY),              // Выбираем случайное число из массива удобств
+        'price': getRandomNumber(DATA_ADS.MAX_PRICE, DATA_ADS.MAX_PRICE),    // Случайная цена от 1000 до 1 000 000
+        'type': getRandomElement(DATA_ADS.TYPE_OF_ROOMS),           // Выбираем случайное число из массива типа комнат
+        'rooms': getRandomNumber(DATA_ADS.MIN_ROOMS, DATA_ADS.MAX_ROOMS),    // Выбираем случайное число из массива количества комнат
+        'guests': getRandomNumber(DATA_ADS.MIN_GUEST, DATA_ADS.MAX_GUEST),   // Случайное количество гостей, которое можно разместить
+        'checkin': getRandomElement(DATA_ADS.TIME),                 // Выбираем случайное число из массива времени заезда
+        'checkout': getRandomElement(DATA_ADS.TIME),                // Выбираем случайное число из массива времени выезда
+        'features': getArrayLength(DATA_ADS.FACILITY),              // Выбираем случайное число из массива удобств
         'description': '',
         'photos': []
       },
@@ -177,7 +169,7 @@ function generateAds() {
 function generateAvatars() {
   var listAvatars = [];
 
-  for (var i = 1; i < COUNT_USERS + 1; i++) {
+  for (var i = 1; i < DATA_ADS.COUNT_USERS + 1; i++) {
     if (i < 10) {
       i = '0' + i;
     }
