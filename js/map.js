@@ -201,12 +201,14 @@ function getArrayLength(array) {
 }
 
 // Функция, возвращающая массив в случайном порядке
+// Функция, возвращающая массив в случайном порядке
 function shuffleArray(array) {
-  for (var i = array.length - 1; i > 0; i--) {
+  var mixedArray = array.slice();
+  for (var i = mixedArray.length - 1; i > 0; i--) {
     var randomIndex = Math.floor(Math.random() * (i + 1));
-    var tempValue = array[i];
-    array[i] = array[randomIndex];
-    array[randomIndex] = tempValue;
+    var tempValue = mixedArray[i];
+    mixedArray[i] = mixedArray[randomIndex];
+    mixedArray[randomIndex] = tempValue;
   }
-  return array;
+  return mixedArray;
 }
