@@ -20,9 +20,67 @@ var DATA_ADS = {
   FACILITY: ['wifi', 'dishwasher', 'parking', 'elevator', 'conditioner']
 }
 
+// Код клавиш для обработки событий
+var KEY_CODE = {
+  ENTER: 13,
+  ESC: 27
+};
+
 var listAds = generateAds();
-generateOffer(listAds[0]);
 insertPins();
+
+var pinElements = document.querySelectorAll('.pin');
+var clickedPin = null;
+var dialog = document.querySelector('.dialog');
+var dialogClose = dialog.querySelector('.dialog__close');
+
+// Функция закрытия оффера по клику
+function onOfferCloseClick() {
+  hideOffer();
+  deactivatePin();
+
+  dialogClose.removeEventListener('click', onOfferCloseClick);
+  dialogClose.removeEventListener('keydown', onOfferCloseKeyDown);
+  document.removeEventListener('keydown', onOfferCloseKeyDown);
+}
+
+// Функция закрытия окна редактирования фото по клику на ESC
+function onOfferCloseKeyDown(evt) {
+  if (evt.keyCode === KEY_CODE.ESC && KEY_CODE.ENTER) {
+    hideOffer();
+    deactivatePin();
+  }
+}
+
+function showOffer() {
+  dialog.classList.remove('hidden');
+}
+
+function hideOffer() {
+  dialog.classList.add('hidden');
+}
+
+function activatePin(evt) {
+  if (clickedPin) {
+    clickedPin.classList.remove('pin--active');
+  }
+  clickedPin = evt.currentTarget;
+  clickedPin.classList.add('pin--active');
+}
+
+function deactivatePin() {
+  clickedPin.classList.remove('pin--active');
+}
+
+function activateOffer(evt) {
+  activatePin(evt);                        // активируем метку на карте
+  generateOffer(listAds[clickedPin.data]); // генерируем объявление
+  showOffer();                             // показываем объявление
+
+  dialogClose.addEventListener('click', onOfferCloseClick);
+  dialogClose.addEventListener('keydown', onOfferCloseKeyDown);
+  document.addEventListener('keydown', onOfferCloseKeyDown);
+}
 
 // Генерируем шаблон объявления
 function generateOffer(advertisement) {
@@ -109,16 +167,17 @@ function insertPins() {
   var tokyoPinMap = document.querySelector('.tokyo__pin-map');
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < listAds.length; i++) {
-    fragment.appendChild(createPin(listAds[i]));          // Создаем и клонируем метки
+    fragment.appendChild(createPin(listAds[i], i));          // Создаем и клонируем метки
   }
   tokyoPinMap.appendChild(fragment);
 }
 
 // Создаем шаблон по которому будут собираться все меткм для карты
-function createPin(marker) {
+function createPin(marker, index) {
   var userLocation = document.createElement('div');
   var userAvatar = document.createElement('img');
   userLocation.className = 'pin';
+  userLocation.tabIndex = 0;
   userLocation.style.left = (marker.location.x - DATA_ADS.PIN_HEIGHT) + 'px';
   userLocation.style.top = marker.location.y - (DATA_ADS.PIN_WIDTH / 2) + 'px';
   userAvatar.className = 'rounded';
@@ -126,8 +185,20 @@ function createPin(marker) {
   userAvatar.height = 40;
   userAvatar.src = marker.author.avatar;
   userLocation.appendChild(userAvatar);
+  userLocation.data = index;
+
+  // Добавляем обработчик события при клике на метку
+  userLocation.addEventListener('click', activateOffer);
+
+  // Добавляем обработчик события при нажатаии на клавишу ENTER на метке
+  userLocation.addEventListener('keydown', function(evt) {
+    if (evt.keyCode === KEY_CODE.ENTER) {
+      activateOffer(evt);
+    }
+  });
   return userLocation;
 }
+
 
 // Функция, возвращающаая массив объектов объявлений
 function generateAds() {
@@ -200,8 +271,7 @@ function getArrayLength(array) {
   return clone;
 }
 
-// Функция, возвращающая массив в случайном порядке
-// Функция, возвращающая массив в случайном порядке
+// Функция, возвращающая новый массив из старого в случайном порядке
 function shuffleArray(array) {
   var mixedArray = array.slice();
   for (var i = mixedArray.length - 1; i > 0; i--) {

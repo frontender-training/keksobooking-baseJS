@@ -655,3 +655,7 @@ select option:hover {
 .rounded {
     border-radius: 50%;
 }
+
+.hidden {
+  display: none;
+}
