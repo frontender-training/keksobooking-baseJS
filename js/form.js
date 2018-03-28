@@ -1,49 +1,80 @@
 'use strict';
 
-var uploadOffer = document.querySelector('.notice__form');
-var uploadOfferTitle = uploadOffer.querySelector('#title');
-var uploadOfferPrice = uploadOffer.querySelector('#price');
+var addOfferForm = document.querySelector('.notice__form');
+var offerTitle = addOfferForm.querySelector('#title');
+var offerPrice = addOfferForm.querySelector('#price');
 
-var uploadOfferTimeIn = uploadOffer.querySelector('#time');
-var uploadOfferTimeOut = uploadOffer.querySelector('#timeout');
-var uploadOfferTypeAccomond = uploadOffer.querySelector('#type');
-var uploadOfferRoomNumber = uploadOffer.querySelector('#room_number');
-var uploadOfferSeatsNumber = uploadOffer.querySelector('#capacity');
+var offerArrival = addOfferForm.querySelector('#time');
+var offerDeparture = addOfferForm.querySelector('#timeout');
+var offerPropertyType = addOfferForm.querySelector('#type');
+var offerRoomNumber = addOfferForm.querySelector('#room_number');
+var offerCapacity = addOfferForm.querySelector('#capacity');
 
 // Добавление обработчиков валидации формы
-uploadOfferTitle.addEventListener('invalid', validationTitle);
-uploadOfferPrice.addEventListener('invalid', validationPrice);
+offerTitle.addEventListener('invalid', validationTitle);
+offerPrice.addEventListener('invalid', validationPrice);
 
 // Добавление обработчиков синхронизации полей формы
-uploadOfferTimeIn.addEventListener('change', onChangeTime);
-uploadOfferTypeAccomond.addEventListener('change', onChangePrice);
-uploadOfferRoomNumber.addEventListener('change', onChangeRooms);
+offerArrival.addEventListener('change', function(evt) {
+  offerDeparture.value = evt.target.value;
+});
 
-// Добавление обработчика валидации формы
-// uploadOfferComment.addEventListener('input', showError);
+offerDeparture.addEventListener('change', function(evt) {
+  offerArrival.value = evt.target.value;
+});
 
-function onChangeRooms(evt) {
-  var element = evt.target.value;
-  if (element === '1 комната') {
-    uploadOfferSeatsNumber.value = 'не для гостей';
-  } else if (element !== '1 комната') {
-    uploadOfferSeatsNumber.value = 'для 3 гостей';
+offerPropertyType.addEventListener('change', function(evt) {
+  switch (evt.target.value) {
+    case 'flat':
+      changeAttributePrice(1000);
+      break;
+    case 'hovel':
+      changeAttributePrice(0);
+      break;
+    case 'palace':
+      changeAttributePrice(10000);
+      break;
+    default:
+      changeAttributePrice(1000);
+      break;
   }
+});
+
+offerRoomNumber.addEventListener('change', function (evt) {
+  switch (evt.target.value) {
+    case '1':
+      syncFields(offerCapacity, 1);
+      break;
+    case '0':
+      syncFields(offerCapacity, 0);
+      break;
+    default:
+      syncFields(offerCapacity, 0);
+      break;
+  }
+});
+
+offerCapacity.addEventListener('change', function (evt) {
+  switch (evt.target.value) {
+    case '1':
+      syncFields(offerRoomNumber, 1);
+      break;
+    case '0':
+      syncFields(offerRoomNumber, 0);
+      break;
+    default:
+      syncFields(offerRoomNumber, 0);
+      break;
+  }
+});
+
+function syncFields(field, syncField) {
+  field.value = syncField.toString();
 }
 
-function onChangePrice(evt) {
-  var element = evt.target.value;
-  if (element === 'flat') {
-    uploadOfferPrice.value = 1000;
-  } else if (element === 'hovel') {
-    uploadOfferPrice.value = 0;
-  } else if (element === 'palace') {
-    uploadOfferPrice.value = 10000;
-  }
-}
-
-function onChangeTime(evt) {
-  uploadOfferTimeOut.value = evt.target.value;
+function changeAttributePrice(price) {
+  offerPrice.placeholder = price.toString();
+  offerPrice.setAttribute('min', price);
 }
 
 function validationPrice(evt) {
