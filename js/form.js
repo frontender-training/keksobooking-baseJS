@@ -9,6 +9,18 @@ var offerDeparture = addOfferForm.querySelector('#timeout');
 var offerPropertyType = addOfferForm.querySelector('#type');
 var offerRoomNumber = addOfferForm.querySelector('#room_number');
 var offerCapacity = addOfferForm.querySelector('#capacity');
+var offerSubmit = addOfferForm.querySelector('.form__submit');
+console.log(addOfferForm.elements);
+
+// Обработка валидации формы при нажатии на кнопку Опубликовать
+offerSubmit.addEventListener('click', function () {
+  for (var i = 0; i < addOfferForm.elements.length; i++) {
+    addOfferForm.elements[i].style.borderColor = '#d9d9d3';
+    if (!addOfferForm.elements[i].checkValidity()) {
+      addOfferForm.elements[i].style.borderColor = 'red';
+    }
+  }
+});
 
 // Добавление обработчиков валидации формы
 offerTitle.addEventListener('invalid', validationTitle);
