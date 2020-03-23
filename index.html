@@ -117,36 +117,36 @@
         <div class="form__panel">
           <div class="form__element  form__element--wide">
             <label for="title">Заголовок объявления</label>
-            <input id="title" type="text" placeholder="Милая, уютная квартирка, например">
+            <input id="title" type="text" placeholder="Милая, уютная квартирка, например" minlength="30" maxlength="100" required>
           </div>
           <div class="form__row">
             <div class="form__element">
               <label for="type">Тип жилья</label>
               <select id="type">
-                <option selected>Квартира</option>
-                <option>Лачуга</option>
-                <option>Дворец</option>
+                <option value="flat" selected>Квартира</option>
+                <option value="hovel">Лачуга</option>
+                <option value="palace">Дворец</option>
               </select>
             </div>
             <div class="form__element">
               <label for="price">Цена за ночь, руб.</label>
-              <input id="price" type="number" placeholder="5000">
+              <input id="price" type="number" placeholder="1000" min="1000" max="1000000" required>
             </div>
           </div>
           <div class="form__row">
             <div class="form__element">
               <label for="room_number">Кол-во комнат</label>
               <select id="room_number">
-                <option selected>1 комната</option>
-                <option>2 комнаты</option>
-                <option>100 комнат</option>
+                <option value="0" selected>1 комната</option>
+                <option value="1">2 комнаты</option>
+                <option value="1">100 комнат</option>
               </select>
             </div>
             <div class="form__element">
               <label for="capacity">Количество мест</label>
               <select id="capacity">
-                <option selected>для 3 гостей</option>
-                <option>не для гостей</option>
+                <option value="1">для 3 гостей</option>
+                <option value="0" selected>не для гостей</option>
               </select>
             </div>
           </div>
@@ -164,17 +164,17 @@
             <div class="form__element">
               <label for="time">Время заезда и выезда</label>
               <select id="time">
-                <option selected>После 12</option>
-                <option>После 13</option>
-                <option>После 14</option>
+                <option value="12" selected>После 12</option>
+                <option value="13">После 13</option>
+                <option value="14">После 14</option>
               </select>
             </div>
             <div class="form__element">
               <label for="timeout">&nbsp;</label>
               <select id="timeout" title="Time to go out">
-                <option selected>Выезд до 12</option>
-                <option>Выезд до 13</option>
-                <option>Выезд до 14</option>
+                <option value="12" selected>Выезд до 12</option>
+                <option value="13">Выезд до 13</option>
+                <option value="14">Выезд до 14</option>
               </select>
             </div>
           </div>
@@ -270,5 +270,6 @@
 </template>
 
 <script src="js/map.js"></script>
+<script src="js/form.js"></script>
 </body>
 </html>
